@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Waste Data Specification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+</head>
+
+<body data-file="tradewaste.yaml">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <div class="sidebar-header px-3 mb-3">
+                        <h5 id="sidebarTitle" class="mb-3"></h5>
+                        <div class="search-box">
+                            <input type="text" id="searchInput" class="form-control form-control-sm"
+                                placeholder="Search tables...">
+                        </div>
+                    </div>
+                    <div id="sidebarNav" class="nav-content">
+                        <!-- Navigation will be dynamically generated -->
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="content-wrapper">
+                    <div id="welcomeMessage" class="welcome-section">
+                        <h1 id="welcomeMessageTitle"></h1>
+                        <p class="lead">Select a table from the sidebar to view its detailed specification.</p>
+                    </div>
+                    <div id="tableContent" class="table-content" style="display: none;">
+                        <!-- Table content will be dynamically generated -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

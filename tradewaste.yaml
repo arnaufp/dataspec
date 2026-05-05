@@ -1,0 +1,1465 @@
+title: Trade Waste
+groups:
+- label: Trade Waste
+  tables:
+  - container-types
+  - pricing-bill-items
+  - non-nlpg-property-details
+  - bin-store-property-details
+  - notifications
+  - customer-accounts
+  - customer-account-notes
+  - arrangements
+  - standard-exceptions
+  - waste-rounds
+  - bank-holidays
+- label: Reference
+  tables:
+  - Lookups
+tables:
+  container-types:
+    name: 1. Container Types
+    description: "This table defines all container types available for Trade Waste\
+      \ services.\nIt provides essential details such as the container\u2019s description,\
+      \ unique code, intended usage, capacity, and whether it is classified as a Trade\
+      \ Waste container. "
+    fields:
+    - name: Description
+      description: "A short, descriptive name for the container type (e.g., \u201C\
+        240L Wheelie Bin\u201D). This helps identify the container in plain language"
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Code
+      description: A unique alphanumeric identifier for the container type. This ensures
+        consistency and avoids ambiguity when referencing containers in the system.
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: 10
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Container Types table.
+    - name: Usage Type
+      description: "Indicates the intended use of the container (e.g., \u201CGeneral\
+        \ Waste,\u201D \u201CRecycling,\u201D \u201CFood Waste\u201D). This helps\
+        \ categorize containers by their waste stream."
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: 48
+      decimals: ''
+      acceptedValues: Lookup list will be created with the provided values
+      remarks: ''
+    - name: Capacity
+      description: 'The volume or size of the container, expressed in litres (e.g.,
+        240L, 1100L). '
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: Lookup list will be created with the provided values
+      remarks: ''
+    - name: Trade container type
+      description: Used to identify the container type as a trade waste container.
+        Always TRUE
+      type: boolean
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Always set to TRUE
+  pricing-bill-items:
+    name: 2. Pricing Bill Items
+    description: 'This table contains the pricing details for Trade Waste services,
+      specifying the rates applied per lift or collection for each container type.
+      It ensures accurate billing by linking container types to their corresponding
+      bill items, rates, and applicable date ranges.
+
+
+      You must have as many price records as the number of rate types multiplied by
+      the number of container types. Each price for every combination of rate type
+      and container type is a bill item.
+
+
+      Records in this table = containerTypes x rateTypes'
+    fields:
+    - name: Bill Item Name
+      description: "The name of the billable item (e.g., \u201CTrade 240 ltr Recycling\u201D\
+        ). This identifies the chargeable container collection/lift activity."
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Container Type Code
+      description: 'The unique code for the container type. Ensures consistency and
+        accurate mapping between pricing and container type data. '
+      type: string
+      required: true
+      unique: ''
+      min: ''
+      max: 10
+      decimals: ''
+      acceptedValues: Only 'Code' present on the 'LinkTo:container-types' table
+      remarks: This field acts as a foreign key to the Container Types table.
+    - name: Bill Item Default Rate
+      description: "Rate charged per lift / collection for this container type and\
+        \ rate type (e.g., \xA35.00). "
+      type: number
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: true
+      acceptedValues: ''
+      remarks: ''
+    - name: Bill Item Rate Type
+      description: "Indicates the type of rate applied (e.g., \u201CStandard\u201D\
+        , \u201CCharity\u201D, \u201CSchool\u201D)"
+      type: string
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Lookup list will be created with the provided values
+      remarks: ''
+    - name: Bill Item Start Date
+      description: The date from which the rate becomes effective, typically 1st April
+        (2025-04-01T00:00)
+      type: datetime
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Bill Item End Date
+      description: The date until which the rate is valid, typically 31st March (2026-03-31T23:59)
+      type: datetime
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+  non-nlpg-property-details:
+    name: 3. Non NLPG Property Details
+    description: "This table captures extra property information for waste collection\
+      \ points that may not be part of the standard UK NLPG (National Land and Property\
+      \ Gazetteer) dataset. \nIt ensures accurate identification and location of premises\
+      \ that require Trade Waste services but fall outside the NLPG, such as non-standard\
+      \ addresses. "
+    fields:
+    - name: Reference
+      description: A unique identifier for the property or collection point. This
+        acts as the primary reference for the record within the system.
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Non NLPG Property Details table.
+    - name: Trading Name
+      description: 'The business name associated with the property '
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Sub Premises Reference/s
+      description: ??
+      type: ''
+      required: ''
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Longitude / Easting
+      description: 'Longitude (decimal degrees WGS84) or Easting (BNG) coordinate
+        of the record  '
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: true
+      acceptedValues: ''
+      remarks: ''
+    - name: Latitude / Northing
+      description: 'Latitude (decimal degrees WGS84) or Easting (BNG) coordinate of
+        the record  '
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: true
+      acceptedValues: ''
+      remarks: ''
+    - name: Street Name
+      description: The name of the street on which the premises is located.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Street USRN
+      description: The Unique Street Reference Number (USRN) identifying the street
+        within a national or local street gazetteer.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Start Number
+      description: The starting building number for the primary address range.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Start Suffix
+      description: An optional suffix associated with the primary start number (e.g.
+        A, B).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary End Number
+      description: The ending building number for the primary address range, where
+        applicable.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary End Suffix
+      description: An optional suffix associated with the primary end number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Text
+      description: Additional descriptive text for the primary address element (e.g.
+        building name).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 90
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Start Number
+      description: The starting number for a secondary address element, such as a
+        unit or subdivision.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Start Suffix
+      description: An optional suffix associated with the secondary start number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary End Number
+      description: The ending number for the secondary address element, where applicable.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary End Suffix
+      description: An optional suffix associated with the secondary end number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Text
+      description: Additional descriptive text for the secondary address element (e.g.
+        unit name or floor description).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 90
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Level
+      description: Specifies the floor or level within the building where the premise
+        is located.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Postcode
+      description: The postal code associated with the premise.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 10
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Postal Town
+      description: The town or city of the premise.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Customer Account
+      description: Identifies the financial account to which costs associated with
+        the asset should be charged
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Account No' present on the 'LinkTo:customer-accounts'
+        table
+      remarks: This field acts as a foreign key to the Customer Accounts table.
+  bin-store-property-details:
+    name: 4. Bin Store Property Details
+    description: ''
+    fields:
+    - name: Bin Store ID
+      description: A unique identifier for the bin store or collection point.
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Non NLPG Property Details table.
+    - name: Trading Name
+      description: 'The business name associated with the property '
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Sub Premises Reference/s
+      description: ??
+      type: ''
+      required: ''
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Longitude / Easting
+      description: 'Longitude (decimal degrees WGS84) or Easting (BNG) coordinate
+        of the record  '
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: true
+      acceptedValues: ''
+      remarks: ''
+    - name: Latitude / Northing
+      description: 'Latitude (decimal degrees WGS84) or Easting (BNG) coordinate of
+        the record  '
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: true
+      acceptedValues: ''
+      remarks: ''
+    - name: Street name
+      description: The name of the street on which the premises is located.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Street USRN
+      description: The Unique Street Reference Number (USRN) identifying the street
+        within a national or local street gazetteer.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Start Number
+      description: The starting building number for the primary address range.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Start Suffix
+      description: An optional suffix associated with the primary start number (e.g.
+        A, B).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary End Number
+      description: The ending building number for the primary address range, where
+        applicable.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary End Suffix
+      description: An optional suffix associated with the primary end number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Primary Text
+      description: Additional descriptive text for the primary address element (e.g.
+        building name).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 90
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Start Number
+      description: The starting number for a secondary address element, such as a
+        unit or subdivision.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Start Suffix
+      description: An optional suffix associated with the secondary start number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary End Number
+      description: The ending number for the secondary address element, where applicable.
+      type: number
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary End Suffix
+      description: An optional suffix associated with the secondary end number.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 2
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Secondary Text
+      description: Additional descriptive text for the secondary address element (e.g.
+        unit name or floor description).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 90
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Level
+      description: Specifies the floor or level within the building where the premise
+        is located.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Postcode
+      description: The postal code associated with the premise.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 10
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Postal Town
+      description: The town or city of the premise.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Customer Account
+      description: Identifies the financial account to which costs associated with
+        the asset should be charged
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Account No' present on the 'LinkTo:customer-accounts'
+        table
+      remarks: This field acts as a foreign key to the Customer Accounts table.
+  notifications:
+    name: 5. Notifications
+    description: 'The Notifications table stores operational messages associated with
+      specific premises within the trade waste system. These notifications are intended
+      for field crews and operational staff, providing important instructions, alerts,
+      or contextual information relevant to service delivery.
+
+
+      Notifications may require acknowledgment or a defined response, and they are
+      typically active only within a specified date range. This ensures that crews
+      are presented with timely and relevant information when attending a premises.'
+    fields:
+    - name: Unique Property Reference
+      description: Unique identifier for the property, bin store or collection point.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: 'Only ''Reference'' present on the ''LinkTo:non-nlpg-property-details''
+        table,
+
+        ''Bin Store ID'' present on the ''LinkTo:bin-store-property-details'' table
+        or
+
+        UPRN present on the LLPG dataset'
+      remarks: This field links the notification to a specific property or bin store  within
+        the system, ensuring that messages are displayed to crews servicing that location.Therefore
+        this unique reference must exist on the LLPG, Non NLPG or Bin Store table
+        and acts as a foreign key to these tables.
+    - name: Notification
+      description: The main body of the message. This contains the information, instruction,
+        or alert that should be communicated to the crew when interacting with the
+        premises.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: 256
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Response Type
+      description: Defines the type of response expected from the crew upon viewing
+        the notification
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Notification Response Type
+      remarks: ''
+    - name: Notification Type
+      description: Categorizes the notification based on its purpose or severity
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Notification Type
+      remarks: ''
+    - name: Start Date
+      description: The date and time from which the notification becomes active and
+        visible to crews. Before this point, the notification should not be displayed.
+      type: datetime
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: End Date
+      description: The date and time at which the notification expires and is no longer
+        shown to crews. This ensures outdated or irrelevant messages are automatically
+        removed from view.
+      type: datetime
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+  customer-accounts:
+    name: 6. Customer Accounts
+    description: The Customer Accounts table stores details of customers who receive
+      trade waste services. It includes identification information, contact details,
+      billing address, and account lifecycle data.
+    fields:
+    - name: Name
+      description: The primary name used to identify the customer account. This may
+        be a trading name, individual name, or account label used internally.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Account No
+      description: A unique identifier assigned to the customer account. This is used
+        to reference the account across the system
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Customer Accounts table.
+    - name: Company Name
+      description: The registered legal name of the company associated with the account,
+        where applicable.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 160
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Contact name
+      description: The name of the primary contact person for the account. This individual
+        is typically responsible for communications regarding the service.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Email address
+      description: The primary email address used for correspondence with the customer
+      type: string
+      required: false
+      unique: false
+      min: 6
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: Provide only one per account
+    - name: Telephone
+      description: The main landline contact number for the customer or organisation.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 48
+      decimals: ''
+      acceptedValues: ''
+      remarks: Provide only one per account
+    - name: Mobile
+      description: A mobile phone number for the primary contact or account
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 48
+      decimals: ''
+      acceptedValues: ''
+      remarks: Provide only one per account
+    - name: Tax rate (%)
+      description: The tax rate applicable to the customer account, expressed as a
+        percentage.
+      type: number
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: false
+      acceptedValues: Lookup list will be created with the provided values
+      remarks: e.g. 0, 20
+    - name: Billing Address Line 1
+      description: The first line of the billing address, typically containing the
+        building number and street name.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: 128
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Line 2
+      description: The second line of the billing address, used for additional location
+        details such as suite, unit, or building name.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Line 3
+      description: The third line of the billing address, used for further address
+        details if required.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Line 4
+      description: The fourth line of the billing address, typically used for locality
+        or district information.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Line 5
+      description: The fifth line of the billing address, optionally used for extended
+        address details.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Postcode
+      description: The postal code associated with the billing address
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Region
+      description: The region, state, or county of the billing address, depending
+        on the country format.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Billing Address Country
+      description: The country of the billing address.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Registered Date
+      description: The date on which the customer account was created or registered
+        in the system.
+      type: date
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Account End Date
+      description: The date on which the customer account was closed or became inactive.
+      type: date
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+  customer-account-notes:
+    name: 7. Customer Account Notes
+    description: 'The Customer Account Notes table stores time-stamped notes associated
+      with customer accounts. These notes provide a historical record of interactions,
+      observations, or important information relevant to account management.
+
+
+      They are typically used to track communications, issues, or actions taken in
+      relation to a specific account.'
+    fields:
+    - name: Account No
+      description: A unique identifier linking the note to a specific customer account.
+        This field acts as a foreign key to the Customer Accounts table, ensuring
+        that each note is associated with the correct account.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Account No' present on the 'LinkTo:customer-accounts'
+        table
+      remarks: This field acts as a foreign key to the Customer Accounts table.
+    - name: Notes
+      description: The content of the note. This may include details of customer interactions,
+        service issues, internal comments, or any other relevant information that
+        needs to be recorded against the account.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Notes Date and Time
+      description: The date and time when the note was created or recorded. This provides
+        a chronological reference for tracking account history and auditing interactions.
+      type: datetime
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+  arrangements:
+    name: 8. Arrangements
+    description: 'The Arrangements table defines the service agreements between customer
+      accounts and the trade waste collection service. It captures details about container
+      types, collection frequency, scheduling rules, and operational parameters required
+      to deliver the service.
+
+
+      This table is central to service planning and execution, determining how and
+      when waste collections are carried out for each premises. It also supports billing
+      configuration and regulatory classification through associated codes.'
+    fields:
+    - name: Arrangement ID
+      description: A unique identifier for each arrangement record. This distinguishes
+        individual service agreements within the system.
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Arrangements table
+    - name: Account No
+      description: The unique identifier of the customer account associated with the
+        arrangement. Acts as a foreign key to the Customer Accounts table.
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a foreign key to the Customer Accounts table.
+    - name: Account Name
+      description: 'The name of the customer account linked to the arrangement. '
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Account No' present on the 'LinkTo:customer-accounts'
+        table
+      remarks: This field acts as a foreign key to the Customer Accounts table, ensuring
+        that each arrangement is associated with the correct account.
+    - name: Unique Property Reference
+      description: A unique identifier for the premises where the service is delivered.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only UPRN present on the LLPG dataset
+      remarks: This field acts as a foreign key to the LLPG dataset. An Arrangement
+        record can only be linked to either a Unique Property Reference (UPRN), Non-NLPG
+        reference or Bin Store ID.
+    - name: Bin Store Reference
+      description: 'An identifier for the bin storage location at the premises, if
+        applicable. '
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Bin Store ID' present on the 'LinkTo:bin-store-property-details'
+        table
+      remarks: This field acts as a foreign key to the Non NLPG Property Details table.
+        An Arrangement record can only be linked to either a Unique Property Reference
+        (UPRN), Non-NLPG reference or Bin Store ID.
+    - name: Non NLPG Reference
+      description: An alternative location or property reference used where a standard
+        property reference (e.g., UPRN) is not available.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Reference' present on the 'LinkTo:non-nlpg-property-details'
+        table
+      remarks: This field acts as a foreign key to the Bin Store Property Details
+        table. An Arrangement record can only be linked to either a Unique Property
+        Reference (UPRN), Non-NLPG reference or Bin Store ID.
+    - name: Container Type Description
+      description: A descriptive label for the type of container used in the arrangement.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Container Type Code
+      description: 'Standardized code representing the container type. '
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Code' present on the 'LinkTo:container-types' table
+      remarks: This field acts as a foreign key to the Container Types table.
+    - name: Number of Containers
+      description: The total number of containers assigned under this arrangement.
+      type: number
+      required: true
+      unique: false
+      min: 1
+      max: 20
+      decimals: false
+      acceptedValues: ''
+      remarks: ''
+    - name: Rate Type
+      description: Defines the billing rate structure applied to the arrangement
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Bill item Rate Type' present on the 'LinkTo:pricing-bill-items'
+        table
+      remarks: ''
+    - name: Billing cycle
+      description: Specifies how frequently billing occurs for the arrangement
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Billing Cycle
+      remarks: ''
+    - name: SIC code
+      description: "The Standard Industrial Classification (SIC) code representing\
+        \ the customer\u2019s business activity."
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only valid SIC Codes
+      remarks: ''
+    - name: EWC code
+      description: The European Waste Catalogue (EWC) code identifying the type of
+        waste collected under the arrangement.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only valid EWC Codes
+      remarks: ''
+    - name: Start Date Historical
+      description: The original start date of the arrangement, retained for historical
+        or migration purposes.
+      type: datetime
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Start Date
+      description: The current active start date of the arrangement.
+      type: datetime
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: For Week 1 and Week 2 arrangements, you need to enter a date that falls
+        within Week 1 or Week 2 respectively. The system will use this date as input
+        to determine what is considered Week 1 and what is considered Week 2.
+    - name: Use Domestic Containers (T/F)
+      description: 'Indicates whether domestic containers are used for this arrangement. '
+      type: boolean
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Generate Container Jobs (T/F)
+      description: Specifies whether collection jobs should be automatically generated
+        for this arrangement
+      type: boolean
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Waste Round/s
+      description: Identifies the collection round(s) assigned to this arrangement.
+        May include one or multiple rounds.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Waste Round Name' present on the 'LinkTo:waste-rounds'
+        table
+      remarks: If the arrangement is linked to more than one round, provide the round
+        names separated by |. E.g. TW-REC-MON|TW-REC-WED|TW-REC-FRI
+    - name: Specific day of week (T/F)
+      description: Indicates whether collections occur on specific day(s) of the week.
+      type: boolean
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: An Arrangement record can only have one of the four types of frequency.
+        Either specific day of week, specific day of month, named day of named week
+        each month or specific dates
+    - name: Named Day/s (week)
+      description: The specific weekday(s) on which collections are scheduled
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Named Days Week
+      remarks: Only fill if specific date of week is TRUE
+    - name: Frequency (weeks)
+      description: The interval, in weeks, between collections.
+      type: number
+      required: false
+      unique: false
+      min: 1
+      max: 4
+      decimals: false
+      acceptedValues: ''
+      remarks: Only fill if specific date of week is TRUE
+    - name: Week Reference
+      description: Defines the reference week used to calculate recurring collection
+        cycles.
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Only fill if specific date of week is TRUE
+    - name: Specific day of month (T/F)
+      description: Indicates whether collections occur on specific day(s) of the month.
+      type: boolean
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: An Arrangement record can only have one of the four types of frequency.
+        Either specific day of week, specific day of month, named day of named week
+        each month or specific dates
+    - name: Day number/s of month
+      description: 'The numeric day(s) of the month when collections take place '
+      type: number
+      required: false
+      unique: false
+      min: 1
+      max: 31
+      decimals: false
+      acceptedValues: ''
+      remarks: Only fill if specific date of month is TRUE
+    - name: Frequency (months)
+      description: The interval, in months, between collections.
+      type: number
+      required: false
+      unique: false
+      min: 1
+      max: 2
+      decimals: false
+      acceptedValues: ''
+      remarks: Only fill if specific date of month is TRUE
+    - name: Named day of named week each month (T/F)
+      description: "Indicates whether collections follow a pattern such as \u201C\
+        first Monday of the month.\u201D"
+      type: boolean
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: An Arrangement record can only have one of the four types of frequency.
+        Either specific day of week, specific day of month, named day of named week
+        each month or specific dates
+    - name: Named day/s (month)
+      description: 'The weekday(s) used in monthly scheduling patterns '
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Named Days Week
+      remarks: Only fill if named day of named week each month is TRUE
+    - name: Week Number/s
+      description: The week number(s) within the month used for scheduling
+      type: number
+      required: false
+      unique: false
+      min: 1
+      max: 5
+      decimals: false
+      acceptedValues: ''
+      remarks: Only fill if named day of named week each month is TRUE
+    - name: Specific dates (T/F)
+      description: Indicates whether collections occur on explicitly defined dates
+        rather than recurring rules
+      type: boolean
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: An Arrangement record can only have one of the four types of frequency.
+        Either specific day of week, specific day of month, named day of named week
+        each month or specific dates
+    - name: On dates
+      description: A list of specific calendar dates on which collections are scheduled.
+      type: date
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Only fill if specific date is TRUE. Separate the dates by | e.g. 2026-01-20|2026-02-20|2026-03-20
+    - name: Standard exceptions
+      description: Defines recurring exceptions to the schedule (e.g., public holidays).
+      type: string
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Only 'Description' present on the 'LinkTo:standard-exceptions'
+        table
+      remarks: This field acts as a foreign key to the Standard Exceptions table.
+    - name: Adhoc exceptions
+      description: Defines one-off or irregular exceptions to the schedule, such as
+        temporary suspensions
+      type: date
+      required: false
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Separate the dates by | e.g. 2026-01-20|2026-02-20|2026-03-20
+  standard-exceptions:
+    name: 9. Standard exceptions
+    description: The Standard Exceptions table defines collection exceptions to scheduled
+      service arrangements. These exceptions represent predictable non-service periods
+      such as public holidays, planned service suspensions, or other recurring dates
+      when collections should not take place.
+    fields:
+    - name: Description
+      description: A descriptive name for the exception that serves as a unique identifier
+        for each standard exception record
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Standard Exceptions table.
+        Must be unique as this is used to reference the standard exception on other
+        tables
+    - name: Dates
+      description: The date or range of dates on which the exception applies. This
+        defines when services are impacted and should not be scheduled
+      type: date
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Separate the range of dates by | e.g. 2026-08-01|2026-08-31 for August
+        Summer holidays
+  waste-rounds:
+    name: 10. Waste rounds
+    description: The Waste Rounds table defines operational collection routes used
+      by crews to deliver trade waste services. Each waste round represents a planned
+      set of collections grouped by geography, schedule, and operational team. It
+      determines how arrangements are organised into efficient routes for service
+      delivery.
+    fields:
+    - name: Waste Round Name
+      description: A descriptive name for the waste collection round. This is used
+        as unique identifier of the round within the system
+      type: string
+      required: true
+      unique: true
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: This field acts as a primary key of the Waste Rounds table. Must be
+        unique as this is used to reference the waste round on other tables
+    - name: Waste Usage Type
+      description: Specifies the type of waste service associated with the round (e.g.
+        general waste, recycling, food waste)
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Waste Container Usage Type
+      remarks: ''
+    - name: Team
+      description: 'Identifies the operational team responsible for completing the
+        waste round. '
+      type: string
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: Lookup list will be created with the provided values
+      remarks: ''
+    - name: Dates
+      description: Defines the schedule or applicable dates for the waste round
+      type: date
+      required: true
+      unique: false
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: Add all dates for each waste round. Separate the dates by | e.g. 2026-01-20|2026-02-20|2026-03-20
+  bank-holidays:
+    name: 11. Bank holidays
+    description: The Bank Holiday table stores official public holiday dates and their
+      corresponding substitution arrangements where applicable. It is used to support
+      scheduling adjustments across the system, ensuring that service delivery accounts
+      for non-working public holidays and any rescheduled service days.
+    fields:
+    - name: Bank Holiday Date
+      description: The official date of the bank holiday when normal services are
+        typically affected or suspended.
+      type: date
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+    - name: Substitution Date
+      description: 'The alternative date on which services are rescheduled to take
+        place when a bank holiday falls on a regular collection day. '
+      type: date
+      required: true
+      unique: ''
+      min: ''
+      max: ''
+      decimals: ''
+      acceptedValues: ''
+      remarks: ''
+  Lookups:
+    name: Lookups
+    description: Lookup / reference tables.
+    fields:
+    - name: Notification Response Type
+      values:
+      - Information
+      - Confirm
+      - Acknowledge
+    - name: Notification Type
+      values:
+      - Warning
+      - Other
+    - name: Named Days Week
+      values:
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
+      - Sunday
+    - name: Waste Container Usage Type
+      values:
+      - General
+      - Recycling
+      - Organic
+      - Food
+      - Clinical
+    - name: Billing Cycle
+      values:
+      - Annual
+      - Bi-annual
+      - Quarterly
+      - Monthly

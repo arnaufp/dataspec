@@ -1,0 +1,400 @@
+:root {
+    --primary-color: #0969da;
+    --secondary-color: #6c757d;
+    --bg-color: #ffffff;
+    --sidebar-bg: #f8f9fa;
+    --border-color: #d0d7de;
+    --hover-bg: #f3f4f6;
+    --link-color: #0969da;
+    --text-primary: #24292f;
+    --text-secondary: #57606a;
+    --success-color: #1a7f37;
+    --warning-color: #9a6700;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: var(--bg-color);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.sidebar-header h5 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.search-box {
+    margin-top: 12px;
+}
+
+#searchInput {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+#searchInput:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+}
+
+.nav-content {
+    padding: 0 12px;
+}
+
+/* Section Headers (Collapsible Groups) */
+.nav-section {
+    margin-bottom: 8px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.section-header:hover {
+    background-color: var(--hover-bg);
+}
+
+.section-header i {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.section-header.collapsed i {
+    transform: rotate(-90deg);
+}
+
+/* Table Links */
+.nav-items {
+    padding-left: 12px;
+    margin: 4px 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 6px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s;
+    margin: 2px 0;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Main Content */
+main {
+    padding-top: 24px;
+}
+
+.content-wrapper {
+    max-width: 100%;
+}
+
+.welcome-section {
+    padding: 48px 0;
+}
+
+.welcome-section h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.welcome-section .lead {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+/* Table Content Section */
+.table-content {
+    padding: 24px 0;
+}
+
+.table-header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.table-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.table-description {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 12px;
+}
+
+/* Fields Table */
+.fields-table-container {
+    max-height: 80vh; /* optional: limits height of table */
+    overflow: auto;
+}
+
+.fields-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    min-width: 600px; /* ensure horizontal scroll if table is wide */
+}
+
+.fields-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f6f8fa;
+    z-index: 10;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.fields-table tbody td {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.fields-table tbody tr:hover {
+    background-color: #f6f8fa;
+}
+
+.field-name-cell {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    min-width: 180px;
+}
+
+.description-cell {
+    color: var(--text-secondary);
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+.type-cell {
+    white-space: nowrap;
+}
+
+.type-cell code {
+    background-color: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--text-primary);
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.centered-cell {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.values-cell {
+    max-width: 250px;
+    word-break: break-word;
+}
+
+.values-cell a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.values-cell a:hover {
+    text-decoration: underline;
+}
+
+.remarks-cell {
+    color: var(--text-secondary);
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-yes {
+    background-color: #ddf4ff;
+    color: #0969da;
+}
+
+.badge-no {
+    background-color: #f6f8fa;
+    color: var(--text-secondary);
+}
+
+/* Lookup Table Styles */
+.lookup-table {
+    margin-top: 24px;
+}
+
+.lookup-section {
+    margin-bottom: 32px;
+}
+
+.lookup-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.lookup-values {
+    background-color: #f6f8fa;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.lookup-values ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.lookup-values li {
+    padding: 4px 0;
+    color: var(--text-primary);
+}
+
+/* Data Types Table */
+.data-types-table {
+    margin-top: 24px;
+}
+
+.table {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.table thead th {
+    background-color: #f6f8fa;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    padding: 12px 16px;
+}
+
+.table tbody td {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+    vertical-align: top;
+}
+
+.table tbody tr:hover {
+    background-color: #f6f8fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        height: auto;
+    }
+    
+    .fields-table {
+        font-size: 12px;
+    }
+    
+    .fields-table thead th,
+    .fields-table tbody td {
+        padding: 8px 10px;
+    }
+    
+    .description-cell,
+    .values-cell,
+    .remarks-cell {
+        max-width: 200px;
+        font-size: 12px;
+    }
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d0d7de;
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #b0b7be;
+}
+
+/* Link styling in remarks/descriptions */
+.field-body em {
+    font-style: normal;
+    color: var(--text-secondary);
+}
